@@ -1,0 +1,85 @@
+<!-- General Information Component -->
+<div class="row justify-content-center animate__animated animate__fadeIn bg">
+    <div class="col-12 text-center align-baseline" id="general-information">
+        <div>
+            <h1><b>TOTAL CASOS: </b>{{allCasesOfWorld[0].TotalCases | number}}</h1>
+        </div>
+        <div>
+            <h1><b>TOTAL MUERTES: </b> {{allCasesOfWorld[0].TotalDeaths | number}}</h1>
+        </div>
+        <div>
+            <h1><b>TOTAL RECUPERADOS: </b> {{allCasesOfWorld[0].TotalRecovered | number}}</h1>
+        </div>
+    </div>
+</div>
+<!-- General Information Component -->
+
+<!-- End General Information Component -->
+<!--Main Container-->
+<div class="container">
+
+    <!--Search Form-->
+    <div class="input-group justify-content-center" id="div-search-form">
+        <form (ngSubmit)="search()">
+            <div class="d-flex flex-row">
+                <input class="form-control form-control-lg" name="name" [(ngModel)]="country.name" type="text"
+                    placeholder="Buscar país...">
+                <button type="submit" class="btn btn-success">Buscar</button>
+            </div>
+        </form>
+    </div>
+    <!--End Search Form-->
+
+    <!--Table-->
+    <div class="row justify-content-center" id="data-table">
+        <div class="col-sm-11 table-responsive">
+            <table class="table text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <td>Bandera</td>
+                        <td>País</td>
+                        <td>Total Casos</td>
+                        <td>Total muertes</td>
+                        <td>Total Recuperados</td>
+                        <td>Total Test Aplicados</td>
+                        <td>Muertes por Millón</td>
+                        <td>Riesgo de infección</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="!oneCountry; then thenBlock else elseBlock" id="test"></tr>
+                    <ng-template #thenBlock>
+                        <tr *ngFor="let item of resultVirusData | slice:2">
+                            <td><img [src]="UrlFlag+item.TwoLetterSymbol+urlFlag2" alt="..."></td>
+                            <td>{{item.Country}}</td>
+                            <td>{{item.TotalCases | number}}</td>
+                            <td>{{item.TotalDeaths | number}}</td>
+                            <td>{{item.TotalRecovered | number}}</td>
+                            <td>{{item.TotalTests | number}}</td>
+                            <td>{{item.Deaths_1M_pop | number}}</td>
+                            <td>{{item.Infection_Risk | percent:'1.'}}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template #elseBlock>
+                        <tr>
+                            <td><img [src]="UrlFlag+oneCountry.TwoLetterSymbol+urlFlag2" alt="..."></td>
+                            <td>{{oneCountry.Country}}</td>
+                            <td>{{oneCountry.TotalCases | number}}</td>
+                            <td>{{oneCountry.TotalDeaths | number}}</td>
+                            <td>{{oneCountry.TotalRecovered | number}}</td>
+                            <td>{{oneCountry.TotalTests | number}}</td>
+                            <td>{{oneCountry.Deaths_1M_pop | number}}</td>
+                            <td>{{oneCountry.Infection_Risk | percent:'1.'}}</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-info" (click)="clearOneCountry()">Todos los países</button></td>
+                        </tr>
+                    </ng-template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- End Table-->
+
+</div>
+<!--Main Container-->
